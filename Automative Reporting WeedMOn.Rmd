@@ -1,0 +1,644 @@
+---
+title: "Automative Reporting Weedmon"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = FALSE,
+	message = FALSE,
+	warning = FALSE
+)
+```
+
+## Download necessary packages if not downloaded
+## 
+```{r}
+# if these packages aren't installed use install.packages("package name")
+library(tidyverse)
+library(readxl)
+library(here)
+library(dplyr)
+library(ggplot2)
+library(ggrepel)
+library(kableExtra)
+library(knitr)
+library(DT)
+
+```
+
+*Note install/if not use code below*
+
+install.packages(c("tidyverse", "readxl", "here", "dplyr", "ggplot2", "ggrepel", "DT", "knitr"))
+
+devtools::install_github("haozhu233/kableExtra")
+
+# SET YEAR
+```{r}
+# Setting this variable to the year will produce the correct code for the year you would like
+year_code <- 2020
+
+```
+
+
+Set Working Directory
+*Occasionally on Windows R Markdown has trouble finding directory, specified full file path location in read_excel file can use setwd() if working*
+
+# File Notes
+Files that do change
+ACCESS:
+qry_2020_DRT_CountOfNNIS_perTransect2.xlsx
+SAMO's 25 Target Invasive Species.xlsx
+
+ARCGIS:
+raw_POE_WeedSurveyLn_2016to2020.xlsx
+raw_POE_WeedSurveyLn_2016to2020.xlsx
+
+Files that Don't change year to year
+POE_WeedSurveyLn&Pt_2016to2020.xlsx
+
+# Format excel sheets and clean
+
+Making the clean excel files
+```{r}
+# DRT
+# Specified full directory
+# 2020: DRT_NNIS_raw <- read_excel(here(file = "C:/Users/dylan/OneDrive/Desktop/SAMO/Automation/raw data/qry_2020_DRT_CountOfNNIS_perTransect2.xlsx"))
+
+# 2021 from Github
+DRT_NNIS_raw <- read_excel(here(file = "qry_2021_DRT_CountOfNNIS_perTransect.xlsx"))
+# make dataframe
+DRT_NNIS_raw <- data.frame(DRT_NNIS_raw)
+
+# POE
+# Pt
+# Fields to keep: Shape, PARK_UNIT, SCNTFC_CD, SCNTFC_CD2, SCNTFC_CD3, SCNTFC_CD4, SCNTFC_CD5, BUFFER rev_M
+poe_pt_raw <- read_excel(here(file = "raw_POE_WeedSurveyPt_2016to2020.xlsx"))
+# Keep certain rows
+poe_pt_raw <- select(poe_pt_raw, Shape, PARK_UNIT, SCNTFC_CD, SCNTFC_CD2, SCNTFC_CD3, SCNTFC_CD4, SCNTFC_CD5, BUFFER_M, BEGIN_DT, LOC_NM, MEDN_Zone)
+poe_pt_raw$year <- substr(poe_pt_raw$BEGIN_DT, 1, 4)
+poe_pt_raw <- select(poe_pt_raw, -BEGIN_DT)
+poe_pt_raw <- filter(poe_pt_raw, year == year_code)
+poe_pt_raw <- filter(poe_pt_raw, PARK_UNIT == "SAMO")
+
+# Correct Buffer
+poe_pt_raw <- mutate(poe_pt_raw, buffer_rev = ifelse(BUFFER_M < .25, .5, BUFFER_M))
+poe_pt_raw <- select(poe_pt_raw, - BUFFER_M)
+
+# Calculate Area
+poe_pt_raw$Area <- pi*(poe_pt_raw$buffer_rev^2)
+
+####################################################################################################
+# Line
+# Fields to Keep: Shape, PARK_UNIT, SCNTFC_CD, SCNTFC_CD2, SCNTFC_CD3, SCNTFC_CD4, SCNTFC_CD5, LOC_NM
+poe_ln_raw <- read_excel(here(file = "C:/Users/dylan/OneDrive/Desktop/SAMO/Automation/raw data/raw_POE_WeedSurveyLn_2016to2020.xlsx"))
+poe_ln_raw <- rename(poe_ln_raw, Shape = `Shape *`)
+poe_ln_raw <- select(poe_ln_raw, Shape, PARK_UNIT, SCNTFC_CD, SCNTFC_CD2, SCNTFC_CD3, SCNTFC_CD4, SCNTFC_CD5, BUFFER_M, BEGIN_DT, st_length_, Shape__L_3, LOC_NM, BUFDIR, MEDN_Zone)
+# Make the 0s = NA
+# Note: May be able to skip this step, in 2020 all lengths were under Shape__L_2
+poe_ln_raw <- rename(poe_ln_raw, len1 = st_length_, len2 = Shape__L_3)
+poe_ln_raw$len1 <- na_if(poe_ln_raw$len1, 0)
+poe_ln_raw$len2 <- na_if(poe_ln_raw$len2, 0)
+poe_ln_raw$len1 <- poe_ln_raw$len1*10^5
+poe_ln_raw$len2 <- poe_ln_raw$len2*10^5
+poe_ln_raw <- mutate(poe_ln_raw, length = coalesce(len1, len2))
+# subset by year and park
+poe_ln_raw$year <- substr(poe_ln_raw$BEGIN_DT, 1, 4)
+poe_ln_raw <- select(poe_ln_raw, -BEGIN_DT, - len1, -len2)
+poe_ln_raw <- filter(poe_ln_raw, year == year_code)
+poe_ln_raw <- filter(poe_ln_raw, PARK_UNIT == "SAMO")
+
+# Calculate Area
+# first change BUFDIR to numeric
+poe_ln_raw$BUFNUM <- as.numeric(gsub("LEFT", 1, gsub("RIGHT", 1, gsub("FULL", 2, poe_ln_raw$BUFDIR))))
+poe_ln_raw$Area<- poe_ln_raw$BUFFER_M*poe_ln_raw$BUFNUM*poe_ln_raw$length
+
+# Join the Line and Point Data
+poe_ln_raw <- select(poe_ln_raw, LOC_NM, Shape, MEDN_Zone, SCNTFC_CD, SCNTFC_CD2, SCNTFC_CD3, SCNTFC_CD4,SCNTFC_CD5, Area)
+poe_pt_raw <- select(poe_pt_raw, LOC_NM, Shape, MEDN_Zone, SCNTFC_CD, SCNTFC_CD2, SCNTFC_CD3, SCNTFC_CD4,SCNTFC_CD5, Area)
+
+# Clean file
+poe_clean <- full_join(poe_ln_raw, poe_pt_raw)
+
+```
+
+
+Making POE Location Key for table A-1
+*Need to locate clean sheet from 2016-2020 only used for POE names*
+```{r}
+# Using clean sheet only for this section 
+poe_loc_key <- read_excel(here(file = "C:/Users/dylan/OneDrive/Desktop/SAMO/Automation/POE_WeedSurveyLn&Pt_2016to2020.xlsx"), sheet = 3)
+poe_loc_key <- na.omit(unique(select(poe_loc_key, "POE #", "Location")))
+poe_loc_key <- rename(poe_loc_key, poe = "POE #")
+
+```
+
+
+# Make Clean SPP record for POE
+```{r}
+# pivot data to make into more rows from each species record
+poe_clean_pivot <- poe_clean
+poe_clean_pivot <- rename(poe_clean_pivot, SCNTFC_CD1 = SCNTFC_CD)
+
+poe_clean_pivot <- pivot_longer(poe_clean_pivot,
+    cols = starts_with("SCNTFC_CD"),
+    names_to = "SPP_Num",
+    values_to = "spp",
+    names_prefix = "SCNTFC_CD")
+
+poe_clean_pivot <- na.omit(poe_clean_pivot)
+
+```
+
+
+# Create Species Key from 2 letter/3 letter/ full name
+```{r}
+spp_key <- read_excel(here(file = "C:/Users/dylan/OneDrive/Desktop/SAMO/Automation/SAMO's 25 Target Invasive Species.xlsx"), sheet=2, col_names = c("Scientific_name", "common_name", "six_let", "four_let", "USDA"), skip = 4)
+spp_key <- select(spp_key, -common_name)
+
+```
+
+
+# Notes
+MEDN_Zone:
+Zone 1 = 1
+Zone 2 = 2
+Both = 3
+
+when doing species combine to only have unique species no duplicates
+
+POE Name = LOC_NM
+if doesn't have name then remove
+
+Do for point
+Buffer_rev = default distance is .01 
+replace all .01 with .5
+Anything less then .25 make .5
+
+if/then statement for zone 1, zone 2 or both
+
+Point
+zone 1 or zone 2 area = pi*buffer^2
+Line
+Buffer Distance in Meters* Length_m(Ln) * Buffer multiplier
+
+For Length_m(Ln)
+combine st_length_ and Shape__L_3
+make 0 = NA
+10^5 power for st_length
+Shape__L_2 is the correct value
+
+Buffer multiplier = 
+BUFFDIR
+FULL = 2
+LEFT or RIGHT = 1
+
+Buffer Distance in Meters = BUFFER_M
+
+
+
+
+
+# Results
+
+### Table 3 in report 
+```{r}
+# POE Spp per site
+spp_obs_site <- group_by(poe_clean_pivot, LOC_NM, spp)
+spp_obs_site <- summarise(spp_obs_site, Nsites = n())
+spp_obs_site <- ungroup(spp_obs_site)
+spp_obs_site<- group_by(spp_obs_site, spp)
+spp_obs_site<- summarise(spp_obs_site, nsites= n())
+spp_obs_site$pct <- round(spp_obs_site$nsites/sum(spp_obs_site$nsites) *100, 2)
+spp_site_poe <- spp_obs_site
+spp_site_poe <- rename(spp_site_poe, Species = spp)
+spp_key_a1 <- select(spp_key, USDA, six_let)
+spp_key_a1 <- rename(spp_key_a1, Species = USDA)
+spp_site_poe <- right_join(spp_site_poe, spp_key_a1)
+spp_site_poe <- select(spp_site_poe, -Species)
+spp_site_poe <- na.omit(rename(spp_site_poe, Species = six_let, nsites_poe = nsites, pct_poe = pct))
+
+# DRT Spp per site
+spp_site_drt <- group_by(DRT_NNIS_raw, SpeciesName)
+spp_site_drt <- summarize(spp_site_drt, nspp = n())
+spp_site_drt$pct <- round(spp_site_drt$nspp/sum(spp_site_drt$nspp)*100, 2)
+spp_site_drt <- rename(spp_site_drt, Species = SpeciesName, nsites_drt = nspp, pct_drt = pct)
+
+# Join
+spp_site_full <- right_join(spp_site_drt, spp_site_poe)
+
+# Make NAs 0 so we can add
+spp_site_full[is.na(spp_site_full)]=0
+
+spp_site_full$tot_pct <- spp_site_full$pct_drt + spp_site_full$pct_poe
+spp_site_full$tot_sites <- spp_site_full$nsites_drt + spp_site_full$nsites_poe
+
+spp_site_full <- select(spp_site_full, Species, nsites_poe, nsites_drt, tot_sites, pct_poe, pct_drt, tot_pct)
+
+spp_site_full_dt <- datatable(spp_site_full)
+
+spp_site_full_dt
+
+```
+
+
+## Points of Entry
+
+### Table A-1: group by location, scientific name, zone, area for each species per site
+*Need to locate clean sheet from 2016-2020 for POE names*
+```{r}
+# Make Location Key, using clean sheet only for this section 
+poe_loc_key <- read_excel(here(file = "C:/Users/dylan/OneDrive/Desktop/SAMO/Automation/POE_WeedSurveyLn&Pt_2016to2020.xlsx"), sheet = 3)
+poe_loc_key <- na.omit(unique(select(poe_loc_key, "POE #", "Location")))
+poe_loc_key <- rename(poe_loc_key, LOC_NM = "POE #")
+
+# Create table
+tablea1 <- group_by(poe_clean_pivot, LOC_NM, MEDN_Zone, spp)
+tablea1 <- summarise(tablea1, sumarea = sum(Area))
+tablea1$MEDN_Zone <- as.character(gsub(1, "Hardscape or Trail", gsub(2, "Buffer", gsub(3, "Border", tablea1$MEDN_Zone))))
+
+# for later before getting rid of species
+tablea2 <- tablea1
+
+# join key to pivot table
+tablea1 <- right_join(tablea1, poe_loc_key)
+tablea1 <- select(tablea1, LOC_NM, Location, spp, sumarea, MEDN_Zone)
+tablea1 <- rename(tablea1, "POE#" = LOC_NM, Species = spp, "Gross Area Infested (sq. m)" = sumarea, Zone = MEDN_Zone)
+
+# key from USDA to 6 letter code
+tablea1 <- right_join(spp_key_a1, tablea1)
+tablea1 <- select(tablea1, -Species)
+tablea1 <- rename(tablea1, Species = six_let)
+tablea1 <- select(tablea1, 'POE#', Location, 'Gross Area Infested (sq. m)', Zone)
+
+tablea1_dt <- datatable(tablea1)
+
+tablea1_dt
+                     
+```
+
+### Table A-2 part 1 (a)
+N sites surveyed, N of NIS Observed, N Sites w/NIS observed, N sites w/ NIS, N Sites w/o NIS, % Sites w/ NIS, % of Species Detected, Area Infestation = total area
+
+```{r}
+# Number of target species observed
+spplist <- c(poe_clean$SCNTFC_CD, poe_clean$SCNTFC_CD2, poe_clean$SCNTFC_CD3, poe_clean$SCNTFC_CD4, poe_clean$SCNTFC_CD5)
+
+N_sites_Surveyed <- as.numeric(length(unique(poe_clean_pivot$LOC_NM)))
+
+N_of_NIS_Observed <- length(unique(na.omit(spplist))) - 1
+
+NONEVal2 <- as.numeric(nrow(filter(poe_clean, SCNTFC_CD == "NONE")))
+
+Sites_w_NIS <- N_sites_Surveyed - NONEVal2
+
+Sites_wo_NIS <- NONEVal2
+
+per_Sites_w_NIS <- round((Sites_w_NIS / N_sites_Surveyed)*100, 2)
+
+per_of_Species_Detected <- (N_of_NIS_Observed/25) *100
+
+# Fix rounding up above in poe_clean
+Area_of_Infestation <- sum(poe_clean_pivot$Area)
+
+tablea2a <- data.frame(N_sites_Surveyed, N_of_NIS_Observed, Sites_w_NIS, Sites_wo_NIS, per_Sites_w_NIS, per_of_Species_Detected, Area_of_Infestation)
+
+table2a_dt <- datatable(tablea2a)
+table2a_dt
+
+```
+
+
+### Species total area per year named table A-2 part 2 (b)
+```{r}
+tablea2b <- ungroup(tablea2)
+tablea2b <- group_by(tablea2b, spp)
+tablea2b <- summarize(tablea2b, sum(sumarea))
+# select right key
+spp_key_a2 <- select(spp_key, Scientific_name, USDA)
+spp_key_a2 <- rename(spp_key_a2, spp = USDA)
+# join to key
+tablea2b <- right_join(spp_key_a2, tablea2b)
+tablea2b$Park <- rep("SAMO", length(tablea2b$Scientific_name))
+# rename and clean table
+tablea2b <- rename(tablea2b, Species = Scientific_name, "Area Infestation [sq. m.]" = "sum(sumarea)")
+tablea2b <- select(tablea2b, Park, Species, `Area Infestation [sq. m.]`)
+tablea2b$`Area Infestation [sq. m.]` <- round(tablea2b$`Area Infestation [sq. m.]`)
+
+tablea2b_dt <- datatable(tablea2b)
+tablea2b_dt
+  
+```
+
+
+
+### Most common target species at POEs and how many sites was it seen at
+```{r}
+poe_clean_pivot <- ungroup(poe_clean_pivot)
+mostcomm <- group_by(poe_clean_pivot, LOC_NM, spp)
+mostcomm <- summarise(mostcomm, sites = n())
+mostcomm <- ungroup(mostcomm)
+mostcomm <- select(mostcomm, LOC_NM, spp)
+mostcomm <- group_by(mostcomm, spp)
+mostcomm <- summarise(mostcomm, n = n())
+mostcomm <- right_join(spp_key_a2, mostcomm)
+
+print(slice_max(mostcomm, n))
+
+```
+
+
+### Out of the total number of sites how many had 1-5 and 6 or more
+```{r}
+# group to summarize
+Numspp_poe2 <- unique(poe_clean_pivot[c("spp", "LOC_NM")])
+Numspp_poe2 <- group_by(Numspp_poe2, LOC_NM)
+Numspp_poe2 <- summarize(Numspp_poe2, spp = n())
+Numspp_poe2 <- group_by(Numspp_poe2, spp)
+Numspp_poe2 <- summarise(Numspp_poe2, sites = n())
+
+# change these numbers to get different numbers relative to year
+Numspp_one_to_five <- filter(Numspp_poe2, spp < 6)
+Numspp_one_to_five <- sum(Numspp_one_to_five$sites)
+
+Numspp_six_or_more <- filter(Numspp_poe2, spp > 5)
+Numspp_six_or_more <- sum(Numspp_six_or_more$sites)
+
+print(data.frame(Numspp_one_to_five, Numspp_six_or_more))
+
+```
+
+
+
+### Which location had the highest number of target invasives present and how many
+*multiple returns if multiple sites with max value*
+```{r}
+highestspp <- group_by(poe_clean_pivot, LOC_NM, spp)
+highestspp <- summarize(highestspp, n = n())
+highestspp <- ungroup(highestspp)
+highestspp <- group_by(highestspp, LOC_NM)
+highestspp <- select(highestspp, LOC_NM, spp)
+highestspp <- summarize(highestspp, spp_at_site = n())
+highestspp <- right_join(highestspp, poe_loc_key)
+highestspp <- rename(highestspp, POE = LOC_NM)
+
+print(slice_max(highestspp, spp_at_site))
+
+```
+
+
+
+### Pie chart Figrue 4
+Count of POEs with Different Number Classes of Target Invasive Species Detected
+
+*NOTE: change value range for number classes depending on year*
+Number Classes
+0, 1-2, 3-5, 6-10
+```{r}
+# Change value ranges near end of chunk for POE pie graph
+
+# group to summarize
+Numspp_poe <- unique(poe_clean_pivot[c("spp", "LOC_NM")])
+Numspp_poe <- group_by(Numspp_poe, LOC_NM)
+Numspp_poe<- summarize(Numspp_poe, spp = n())
+Numspp_poe<- group_by(Numspp_poe, spp)
+Numspp_poe <- summarise(Numspp_poe, sites = n())
+
+# go back and add sites with 0 found
+NONEVal2 <- as.numeric(nrow(filter(poe_clean, SCNTFC_CD == "NONE")))
+
+# add this value to Numspp
+Numspp_poe <- rbind(Numspp_poe, list(0, NONEVal2))
+
+# Make groups based on number change if values change
+ranges <- c("0", rep("1-2", 2), rep("3-5", 3), rep("6-10", 4), rep("11-13", 3))
+
+Numspp_poe <- Numspp_poe[order(Numspp_poe$spp),]
+
+Numspp_poe <- cbind(Numspp_poe, ranges)
+
+# Number of species in each range
+Numspp_poe <- group_by(Numspp_poe, ranges)
+Numspp_poe_range <- summarise(Numspp_poe, sitesum = sum(sites))
+
+print(Numspp_poe_range)
+
+# specify the factor levels in order
+Numspp_poe_range$ranges <- factor(Numspp_poe_range$ranges, levels= c("0", "1-2", "3-5", "6-10", "11-13"))
+Numspp_poe_range <- Numspp_poe_range[order(Numspp_poe_range$ranges),]
+
+
+Numspp_poe_range2 <- Numspp_poe_range %>% 
+  mutate(csum = rev(cumsum(rev(sitesum))), 
+         pos = sitesum/2 + lead(csum, 1),
+         pos = if_else(is.na(pos), sitesum/2, pos))
+
+ggplot(Numspp_poe_range, aes(x = "" , y = sitesum, fill = ranges)) +
+  geom_col(width = 1, color = 1)+
+  coord_polar(theta = "y")+
+  scale_fill_brewer(palette = "Spectral")+
+  geom_label_repel(data = Numspp_poe_range2,
+                   aes(y = pos, label = sitesum),
+                   size = 4.5, nudge_x = 1, show.legend = FALSE)+
+  guides(fill = guide_legend(title = "Number of Species")) +
+  theme_void()
+
+```
+
+### Bar Chart Figure 4 ALT
+```{r}
+ggplot(Numspp_poe_range, aes(x = ranges , y = sitesum, fill = ranges))+
+  geom_bar(stat = "identity")+
+  theme_minimal()+
+  geom_text(aes(label = sitesum), vjust = 2)
+
+```
+
+
+## Dirt Roads and Trails
+
+### Make new dataframe to have how many times a number of species occurred at each site in DRT
+```{r}
+
+DRT_NNIS_SPPS <- data.frame(DRT_NNIS_raw$Location_Code, DRT_NNIS_raw$SpeciesName)
+
+# Count number of times NONE appears
+NONEVal <- length(DRT_NNIS_SPPS[which(DRT_NNIS_SPPS=="NONE"), 2])
+
+DRT_NNIS_SPPS <- DRT_NNIS_SPPS[! grepl("NONE", DRT_NNIS_SPPS$DRT_NNIS_raw.SpeciesName), ]
+
+DRT_NNIS_SPPS <- data.frame(Sp = DRT_NNIS_SPPS$DRT_NNIS_raw.SpeciesName, loc = DRT_NNIS_SPPS$DRT_NNIS_raw.Location_Code)
+
+DRT_NNIS_SPPS<- as.data.frame(table(DRT_NNIS_SPPS$loc))
+
+NSPP_persite <- data.frame(table(DRT_NNIS_SPPS$Freq))
+NSPP_persite$Var1 <- as.numeric(NSPP_persite$Var1)
+
+NSPP_persite[nrow(NSPP_persite)+1,] <- c(0, NONEVal)
+
+NSPP_persite <- rename(NSPP_persite, numspp = Var1, numsites = Freq)
+
+print(NSPP_persite)
+
+```
+
+### Pie chart Figure 5
+Count of DRTs with different numbers of Target Species detected
+* include numbers in each slide of pie *
+```{r}
+# Make each of the numbers into a ratio
+NSPP_persite$ratio <- NSPP_persite$numsites / sum(NSPP_persite$numsites) *100
+
+# make a factor again
+NSPP_persite$numspp <- as.factor(NSPP_persite$numspp)
+
+# label positions
+
+# Create Data
+data <- data.frame(
+  group=LETTERS[1:5],
+  value=c(13,7,9,21,2)
+)
+
+
+# Compute the position of labels
+NSPP_persite <- NSPP_persite %>% 
+  arrange(desc(numspp)) %>%
+  mutate(prop = numsites / sum(NSPP_persite$numsites) *100) %>%
+  mutate(ypos = cumsum(prop)- 0.5*prop )
+
+
+# make chart with values inside
+ggplot(NSPP_persite, aes(x="", y=ratio, fill=numspp)) +
+  geom_bar(stat="identity", width=1, color="white") +
+  coord_polar("y", start=0)+
+  theme_void()+
+  geom_text(aes(y=ypos, label=numsites), color="black", size=6)+
+  scale_fill_brewer(palette="Set1")
+
+# Outside
+NSPP_persite2 <- NSPP_persite %>% 
+  mutate(csum = rev(cumsum(rev(ratio))), 
+         pos = ratio/2 + lead(csum, 1),
+         pos = if_else(is.na(pos), ratio/2, pos))
+
+# round up values
+perc <- round(NSPP_persite$ratio, 2)
+
+ggplot(NSPP_persite, aes(x = "" , y = ratio, fill = fct_inorder(numspp))) +
+  geom_col(width = 1, color = 1) +
+  coord_polar(theta = "y") +
+  # Can change color in palette = 
+  scale_fill_brewer(palette = "Spectral") +
+  geom_label_repel(data = NSPP_persite2,
+                   aes(y = pos, label = numsites),
+                   size = 4.5, nudge_x = 1, show.legend = FALSE) +
+  guides(fill = guide_legend(title = "Number of Species")) +
+  theme_void()
+
+
+```
+
+# Barchart DRT Figure 5 ALT
+```{r}
+ggplot(NSPP_persite, aes(x = numspp , y = numsites, fill = numsites))+
+  geom_bar(stat = "identity")+
+  theme_minimal()+
+  geom_text(aes(label = numsites), vjust = 2)
+```
+
+# Table B-2
+```{r}
+
+tableb1 <- select(DRT_NNIS_raw, Location_Code, Loc_Name, SpeciesName, X0, X1, X2, X3, X4, X5, X6, X7, X8, X9, X10)
+tableb1$Location_Code <- gsub("GRTS", "DRT", tableb1$Location_Code)
+tableb1 <- rename(tableb1, DRT = Location_Code, Location = Loc_Name, 'Species Code'= SpeciesName)
+
+tableb1_dt <- datatable(tableb1)
+tableb1_dt
+
+```
+
+
+
+### Total Sites visited this year
+```{r}
+print(length(unique(DRT_NNIS_raw$Location_Code)))
+
+```
+
+
+### How many of the total target species were found on DRTs
+```{r}
+# Include -1 since none is a value
+print(length(unique(DRT_NNIS_raw$SpeciesName)) -1)
+
+```
+
+### _ of the total sites had at least one species
+```{r}
+print(sum(NSPP_persite$numsites) - NSPP_persite[NSPP_persite$numspp == 0, 2])
+
+```
+
+
+### how many had one and two species found at site
+```{r}
+
+print(NSPP_persite[NSPP_persite$numspp == 2, 2] + NSPP_persite[NSPP_persite$numspp == 1, 2])
+
+```
+
+
+### Most common target invasive and at how many sites
+```{r}
+
+print(tail(sort(table(DRT_NNIS_raw$SpeciesName), deceasing=T), n=1))
+
+```
+
+
+# Extras and possible future questions
+
+### _ target invasive species were found across _ vegmon sites
+
+### Among the _ sites we surveyed
+
+### Greatest number of sites for any one non-native species
+
+### Number of points of contact for vegmon (%cover) 
+One point of contact = 1% so # of hits is the % cover for that plot
+
+### DRT Location Key
+```{r}
+# Make DRT location key
+drt_loc_key <- DRT_NNIS_raw
+drt_loc_key$Location_Code <- gsub("GRTS", "DRT", drt_loc_key$Location_Code)
+drt_loc_key <- na.omit(unique(select(drt_loc_key, Location_Code, Loc_Name)))
+
+```
+
+
+### Calculating Percent Cover by Rows Potential VegMon
+Not necessary but may be useful for vegmon code
+```{r}
+DRT_NNIS_raw$count_na <- rowSums(is.na(DRT_NNIS_raw))
+DRT_NNIS_raw$NHits <- 11 - DRT_NNIS_raw$count_na
+DRT_NNIS_raw$percent_cover <- DRT_NNIS_raw$NHits *10
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
