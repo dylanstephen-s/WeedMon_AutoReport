@@ -36,7 +36,7 @@ devtools::install_github("haozhu233/kableExtra")
 # SET YEAR
 ```{r}
 # Setting this variable to the year will produce the correct code for the year you would like
-year_code <- 2020
+year_code <- 2021
 
 ```
 
@@ -63,18 +63,17 @@ Making the clean excel files
 ```{r}
 # DRT
 # Specified full directory
-# 2020: DRT_NNIS_raw <- read_excel(here(file = "C:/Users/dylan/OneDrive/Desktop/SAMO/Automation/raw data/qry_2020_DRT_CountOfNNIS_perTransect2.xlsx"))
 
 # 2021 from Github
-DRT_NNIS_raw <- read_excel(here(file = "qry_2021_DRT_CountOfNNIS_perTransect.xlsx"))
+DRT_NNIS_raw <- read_excel(here(file = "qry_2021_DRT_CountOfNNIS_perTransect2.xlsx"))
 # make dataframe
 DRT_NNIS_raw <- data.frame(DRT_NNIS_raw)
 
 # POE
 # Pt
 # Fields to keep: Shape, PARK_UNIT, SCNTFC_CD, SCNTFC_CD2, SCNTFC_CD3, SCNTFC_CD4, SCNTFC_CD5, BUFFER rev_M
-poe_pt_raw <- read_excel(here(file = "raw_POE_WeedSurveyPt_2016to2020.xlsx"))
-# Keep certain rows
+poe_pt_raw <- read_excel(here(file = "raw_POE_WeedSurveyPt_2021.xlsx"))
+# Keep certain columns
 poe_pt_raw <- select(poe_pt_raw, Shape, PARK_UNIT, SCNTFC_CD, SCNTFC_CD2, SCNTFC_CD3, SCNTFC_CD4, SCNTFC_CD5, BUFFER_M, BEGIN_DT, LOC_NM, MEDN_Zone)
 poe_pt_raw$year <- substr(poe_pt_raw$BEGIN_DT, 1, 4)
 poe_pt_raw <- select(poe_pt_raw, -BEGIN_DT)
@@ -91,7 +90,7 @@ poe_pt_raw$Area <- pi*(poe_pt_raw$buffer_rev^2)
 ####################################################################################################
 # Line
 # Fields to Keep: Shape, PARK_UNIT, SCNTFC_CD, SCNTFC_CD2, SCNTFC_CD3, SCNTFC_CD4, SCNTFC_CD5, LOC_NM
-poe_ln_raw <- read_excel(here(file = "C:/Users/dylan/OneDrive/Desktop/SAMO/Automation/raw data/raw_POE_WeedSurveyLn_2016to2020.xlsx"))
+poe_ln_raw <- read_excel(here(file = "raw_POE_WeedSurveyLn_2021.xlsx"))
 poe_ln_raw <- rename(poe_ln_raw, Shape = `Shape *`)
 poe_ln_raw <- select(poe_ln_raw, Shape, PARK_UNIT, SCNTFC_CD, SCNTFC_CD2, SCNTFC_CD3, SCNTFC_CD4, SCNTFC_CD5, BUFFER_M, BEGIN_DT, st_length_, Shape__L_3, LOC_NM, BUFDIR, MEDN_Zone)
 # Make the 0s = NA
@@ -127,7 +126,7 @@ Making POE Location Key for table A-1
 *Need to locate clean sheet from 2016-2020 only used for POE names*
 ```{r}
 # Using clean sheet only for this section 
-poe_loc_key <- read_excel(here(file = "C:/Users/dylan/OneDrive/Desktop/SAMO/Automation/POE_WeedSurveyLn&Pt_2016to2020.xlsx"), sheet = 3)
+poe_loc_key <- read_excel(here(file = "POE_WeedSurveyLn&Pt_2016to2020.xlsx"), sheet = 3)
 poe_loc_key <- na.omit(unique(select(poe_loc_key, "POE #", "Location")))
 poe_loc_key <- rename(poe_loc_key, poe = "POE #")
 
@@ -153,7 +152,7 @@ poe_clean_pivot <- na.omit(poe_clean_pivot)
 
 # Create Species Key from 2 letter/3 letter/ full name
 ```{r}
-spp_key <- read_excel(here(file = "C:/Users/dylan/OneDrive/Desktop/SAMO/Automation/SAMO's 25 Target Invasive Species.xlsx"), sheet=2, col_names = c("Scientific_name", "common_name", "six_let", "four_let", "USDA"), skip = 4)
+spp_key <- read_excel(here(file = "SAMO's 25 Target Invasive Species.xlsx"), sheet=2, col_names = c("Scientific_name", "common_name", "six_let", "four_let", "USDA"), skip = 4)
 spp_key <- select(spp_key, -common_name)
 
 ```
