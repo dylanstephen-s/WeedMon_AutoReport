@@ -91,10 +91,11 @@ poe_pt_raw$Area <- pi*(poe_pt_raw$buffer_rev^2)
 # Line
 # Fields to Keep: Shape, PARK_UNIT, SCNTFC_CD, SCNTFC_CD2, SCNTFC_CD3, SCNTFC_CD4, SCNTFC_CD5, LOC_NM
 poe_ln_raw <- read_excel(here(file = "raw_POE_WeedSurveyLn_2021.xlsx"))
-poe_ln_raw <- rename(poe_ln_raw, Shape = `Shape *`)
+# poe_ln_raw <- rename(poe_ln_raw, Shape = `Shape *`)
 poe_ln_raw <- select(poe_ln_raw, Shape, PARK_UNIT, SCNTFC_CD, SCNTFC_CD2, SCNTFC_CD3, SCNTFC_CD4, SCNTFC_CD5, BUFFER_M, BEGIN_DT, st_length_, Shape__L_3, LOC_NM, BUFDIR, MEDN_Zone)
 # Make the 0s = NA
 # Note: May be able to skip this step, in 2020 all lengths were under Shape__L_2
+# or may need to change field name in source Excel file from "Shape__Len" to "Shape__L_3"
 poe_ln_raw <- rename(poe_ln_raw, len1 = st_length_, len2 = Shape__L_3)
 poe_ln_raw$len1 <- na_if(poe_ln_raw$len1, 0)
 poe_ln_raw$len2 <- na_if(poe_ln_raw$len2, 0)
@@ -247,7 +248,7 @@ spp_site_full_dt
 *Need to locate clean sheet from 2016-2020 for POE names*
 ```{r}
 # Make Location Key, using clean sheet only for this section 
-poe_loc_key <- read_excel(here(file = "C:/Users/dylan/OneDrive/Desktop/SAMO/Automation/POE_WeedSurveyLn&Pt_2016to2020.xlsx"), sheet = 3)
+poe_loc_key <- read_excel(here(file = "POE_WeedSurveyLn&Pt_2016to2020.xlsx"), sheet = 3)
 poe_loc_key <- na.omit(unique(select(poe_loc_key, "POE #", "Location")))
 poe_loc_key <- rename(poe_loc_key, LOC_NM = "POE #")
 
