@@ -120,6 +120,9 @@ poe_pt_raw <- select(poe_pt_raw, LOC_NM, Shape, MEDN_Zone, SCNTFC_CD, SCNTFC_CD2
 # Clean file
 poe_clean <- full_join(poe_ln_raw, poe_pt_raw)
 
+# Make all uppercase
+poe_clean$LOC_NM <- toupper(poe_clean$LOC_NM)
+
 ```
 
 
@@ -411,7 +414,8 @@ NONEVal2 <- as.numeric(nrow(filter(poe_clean, SCNTFC_CD == "NONE")))
 Numspp_poe <- rbind(Numspp_poe, list(0, NONEVal2))
 
 # Make groups based on number change if values change
-ranges <- c("0", rep("1-2", 2), rep("3-5", 3), rep("6-10", 4), rep("11-13", 3))
+#################################### Specify Ranges here #####################################################
+ranges <- c("0", rep("1-2", 2), rep("3-5", 3), rep("6-8", 3), rep("9-12", 2))
 
 Numspp_poe <- Numspp_poe[order(Numspp_poe$spp),]
 
@@ -424,7 +428,8 @@ Numspp_poe_range <- summarise(Numspp_poe, sitesum = sum(sites))
 print(Numspp_poe_range)
 
 # specify the factor levels in order
-Numspp_poe_range$ranges <- factor(Numspp_poe_range$ranges, levels= c("0", "1-2", "3-5", "6-10", "11-13"))
+#################################### Specify Ranges here as well################################################## 
+Numspp_poe_range$ranges <- factor(Numspp_poe_range$ranges, levels= c("0", "1-2", "3-5", "6-8", "9-12"))
 Numspp_poe_range <- Numspp_poe_range[order(Numspp_poe_range$ranges),]
 
 
