@@ -27,6 +27,9 @@ library(DT)
 
 ```
 
+*link to download folders from github*
+https://download-directory.github.io/
+
 *Note install/if not use code below*
 
 install.packages(c("tidyverse", "readxl", "here", "dplyr", "ggplot2", "ggrepel", "DT", "knitr"))
@@ -36,7 +39,7 @@ devtools::install_github("haozhu233/kableExtra")
 # SET YEAR
 ```{r}
 # Setting this variable to the year will produce the correct code for the year you would like
-year_code <- 2021
+year_code <- 2022
 
 ```
 
@@ -70,6 +73,7 @@ DRT_NNIS_raw <- read_excel(here(file = "qry_2021_DRT_CountOfNNIS_perTransect2.xl
 DRT_NNIS_raw <- data.frame(DRT_NNIS_raw)
 
 ############################################################################################################
+# to uncomment and run 2022 data then delete the hastag of all of the lines where there is no space between first word and hashtag the rest are notes
 # 2022 File Format from Survey123
 #DRT_species_table <- read.csv(file="test_file_Survey123_tbl_Species_1.csv")
 #DRT_data_entry <- read.csv(file="test_file_Survey123_MEDN_DRT_Data_Entry_v_2_0.csv")
@@ -93,8 +97,29 @@ DRT_NNIS_raw <- data.frame(DRT_NNIS_raw)
 
 #DRT_survey <- pivot_wider(DRT_survey, names_from = X, values_from = Found)
 
-# if all subtransects have none then an X in the X0 column
+# change the NONE_inv to NONE
+#DRT_survey$SpeciesName <- sub("NONE_inv", "NONE", DRT_survey$SpeciesName)
 
+# change the names to be X1...x10
+#DRT_survey <- rename(DRT_survey, X1 = "1", X2 = "2", X3 = "3", X4 = "4", X5 = "5", X6 = "6", X7 = "7", X8 = "8", X9 ="9", X10 = "10")
+
+# add an empty column
+#DRT_survey$X0 <- NA
+
+# Add an X to when all X1... X10 has NONE and an X to the new X0 column
+#DRT_survey <- mutate(DRT_survey, X0 = case_when(SpeciesName == "NONE" & X1 == "X" & X2 == "X" & X3 == "X" & X4 == "X" & X5 == "X" & X6 == "X" & X7 == "X" & X8 == "X" & X9 == "X" & X10 == "X" ~ "X"))
+
+# Now replace all of the X1...X10 with NA when X0 has a X
+#DRT_survey$X1 <- ifelse(DRT_survey$SpeciesName == "NONE" & DRT_survey$X0 == "X", NA, DRT_survey$X1)
+#DRT_survey$X2 <- ifelse(DRT_survey$SpeciesName == "NONE" & DRT_survey$X0 == "X", NA, DRT_survey$X2)
+#DRT_survey$X3 <- ifelse(DRT_survey$SpeciesName == "NONE" & DRT_survey$X0 == "X", NA, DRT_survey$X3)
+#DRT_survey$X4 <- ifelse(DRT_survey$SpeciesName == "NONE" & DRT_survey$X0 == "X", NA, DRT_survey$X4)
+#DRT_survey$X5 <- ifelse(DRT_survey$SpeciesName == "NONE" & DRT_survey$X0 == "X", NA, DRT_survey$X5)
+#DRT_survey$X6 <- ifelse(DRT_survey$SpeciesName == "NONE" & DRT_survey$X0 == "X", NA, DRT_survey$X6)
+#DRT_survey$X7 <- ifelse(DRT_survey$SpeciesName == "NONE" & DRT_survey$X0 == "X", NA, DRT_survey$X7)
+#DRT_survey$X8 <- ifelse(DRT_survey$SpeciesName == "NONE" & DRT_survey$X0 == "X", NA, DRT_survey$X8)
+#DRT_survey$X9 <- ifelse(DRT_survey$SpeciesName == "NONE" & DRT_survey$X0 == "X", NA, DRT_survey$X9)
+#DRT_survey$X10 <- ifelse(DRT_survey$SpeciesName == "NONE" & DRT_survey$X0 == "X", NA, DRT_survey$X10)
 
 
 ####################################################################################################
@@ -313,7 +338,7 @@ tablea1_dt <- datatable(tablea1)
 tablea1_dt
 
 # write csv
-# write.csv(tablea1, "Tables 2021/tablea1")
+# write.csv(tablea1, "Tables 2021/tablea1.csv")
                      
 ```
 
