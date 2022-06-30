@@ -36,7 +36,7 @@ devtools::install_github("haozhu233/kableExtra")
 # SET YEAR
 ```{r}
 # Setting this variable to the year will produce the correct code for the year you would like
-year_code <- 2022
+year_code <- 2021
 
 ```
 
@@ -69,28 +69,29 @@ DRT_NNIS_raw <- read_excel(here(file = "qry_2021_DRT_CountOfNNIS_perTransect2.xl
 # make dataframe
 DRT_NNIS_raw <- data.frame(DRT_NNIS_raw)
 
+############################################################################################################
 # 2022 File Format from Survey123
-DRT_species_table <- read.csv(file="tbl_Species_1_2022_test.csv")
-DRT_data_entry <- read.csv(file="MEDN_DRT_Data_Entry_v_2_0._2022_test.csv")
+#DRT_species_table <- read.csv(file="test_file_Survey123_tbl_Species_1.csv")
+#DRT_data_entry <- read.csv(file="test_file_Survey123_MEDN_DRT_Data_Entry_v_2_0.csv")
 
 # DRT Species Table has SpeciesName = Target.Species, SubTransect, ParentGlobalID
 # DRT_data_entry has Site_ID = Loc_Name, Location_ID = Location_Code, GlobalID
-DRT_species_table <- select(DRT_species_table, Target.Species, SubTransect, ParentGlobalID)
-DRT_species_table<- rename(DRT_species_table, SpeciesName = Target.Species, X = SubTransect, key = ParentGlobalID)
-DRT_data_entry <- select(DRT_data_entry, Location_ID, GlobalID, Site_ID)
-DRT_data_entry <- rename(DRT_data_entry, Loc_Name = Site_ID, Location_Code = Location_ID, key = GlobalID)
+#DRT_species_table <- select(DRT_species_table, Target.Species, SubTransect, ParentGlobalID)
+#DRT_species_table<- rename(DRT_species_table, SpeciesName = Target.Species, X = SubTransect, key = ParentGlobalID)
+#DRT_data_entry <- select(DRT_data_entry, Location_ID, GlobalID, Site_ID)
+#DRT_data_entry <- rename(DRT_data_entry, Loc_Name = Site_ID, Location_Code = Location_ID, key = GlobalID)
 
 # Join data
-DRT_survey <- right_join(DRT_data_entry, DRT_species_table)
-DRT_survey$SurveyYear <- year_code
-DRT_survey <- select(DRT_survey, -key)
+#DRT_survey <- right_join(DRT_data_entry, DRT_species_table)
+#DRT_survey$SurveyYear <- year_code
+#DRT_survey <- select(DRT_survey, -key)
 
 # Need to ask about NAs but for now lets remove them and pivot
-DRT_survey <- na.omit(DRT_survey)
+#DRT_survey <- na.omit(DRT_survey)
 
-DRT_survey$Found <- "X"
+#DRT_survey$Found <- "X"
 
-DRT_survey <- pivot_wider(DRT_survey, names_from = X, values_from = Found)
+#DRT_survey <- pivot_wider(DRT_survey, names_from = X, values_from = Found)
 
 # if all subtransects have none then an X in the X0 column
 
@@ -233,6 +234,7 @@ Buffer Distance in Meters = BUFFER_M
 # Results
 
 ### Table 3 in report 
+*Example of write.csv*
 ```{r}
 # POE Spp per site
 spp_obs_site <- group_by(poe_clean_pivot, LOC_NM, spp)
@@ -266,9 +268,13 @@ spp_site_full$tot_sites <- spp_site_full$nsites_drt + spp_site_full$nsites_poe
 
 spp_site_full <- select(spp_site_full, Species, nsites_poe, nsites_drt, tot_sites, pct_poe, pct_drt, tot_pct)
 
+# Datatable function is for R markdown, don't use for writing csv
 spp_site_full_dt <- datatable(spp_site_full)
 
 spp_site_full_dt
+
+# write csv with table file
+# write.csv(spp_site_full, "Tables 2021/spp_site_full.csv")
 
 ```
 
@@ -305,6 +311,9 @@ tablea1 <- select(tablea1, 'POE#', Location, 'Gross Area Infested (sq. m)', Zone
 tablea1_dt <- datatable(tablea1)
 
 tablea1_dt
+
+# write csv
+# write.csv(tablea1, "Tables 2021/tablea1")
                      
 ```
 

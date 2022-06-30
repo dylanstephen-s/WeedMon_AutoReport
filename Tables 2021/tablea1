@@ -1,0 +1,252 @@
+"","POE#","Location","Gross Area Infested (sq. m)","Zone"
+"1","POE-046","Gillette Ranch",1340156.55220532,"Buffer"
+"2","POE-032","Santa Ynez Cyn Park Trailhead",442327.2,"Buffer"
+"3","POE-046","Gillette Ranch",3.14159265358979,"Buffer"
+"4","POE-034","Arroyo Sequit",0.785398163397448,"Buffer"
+"5","POE-037","Charmlee Regional Park / Charmlee Natural Area",3.92699081698724,"Buffer"
+"6","POE-038","Las Virgenes View Trail Trailhead",301202.52819449,"Buffer"
+"7","POE-043","BBT - Topanga State Park Main Entrance",9667237.91017612,"Buffer"
+"8","POE-045","BBT - Kanan Dume Rd N - overflow",0.785398163397448,"Buffer"
+"9","POE-046","Gillette Ranch",23465299.0539816,"Buffer"
+"10","POE-048","Temescal Gateway Park",897218.8,"Buffer"
+"11","POE-049","Point Dume / Zuma, Westward Beach Rd",0.785398163397448,"Buffer"
+"12","POE-050","BBT - Encinal Cyn Rd",160103.2,"Buffer"
+"13","POE-053","Nicholas Flat Trailhead",3462089.69336143,"Buffer"
+"14","POE-056","Wilacre Park Main Entrance",118220179.953982,"Buffer"
+"15","POE-056","Wilacre Park Main Entrance",470277.7,"Border"
+"16","POE-057","Solstice Canyon Trailhead - inner lot",281776.741592654,"Buffer"
+"17","POE-058","Bark Park Trailhead (Baldwin OS)",11751.3643338823,"Buffer"
+"18","POE-059","BBT - Dead Horse Trail Trailhead (Topanga State Park)",27266560.0539816,"Buffer"
+"19","POE-060","Caballero Cyn Trailhead",3.14159265358979,"Buffer"
+"20","POE-061","Peter Strauss Ranch",1278038.12699082,"Hardscape or Trail"
+"21","POE-061","Peter Strauss Ranch",140666992.328316,"Buffer"
+"22","POE-062","Malibu Ck St Pk/Tapia Park (Malibu Creek State Park)",14355372.3716769,"Buffer"
+"23","POE-062","Malibu Ck St Pk/Tapia Park (Malibu Creek State Park)",3011730.5,"Border"
+"24","POE-061","Peter Strauss Ranch",0.785398163397448,"Hardscape or Trail"
+"25","POE-061","Peter Strauss Ranch",1689063.13716694,"Buffer"
+"26","POE-062","Malibu Ck St Pk/Tapia Park (Malibu Creek State Park)",3.14159265358979,"Buffer"
+"27","POE-038","Las Virgenes View Trail Trailhead",282430.8,"Buffer"
+"28","POE-046","Gillette Ranch",1.5707963267949,"Buffer"
+"29","POE-053","Nicholas Flat Trailhead",0.785398163397448,"Buffer"
+"30","POE-058","Bark Park Trailhead (Baldwin OS)",470688.95619449,"Buffer"
+"31","POE-061","Peter Strauss Ranch",24499150.5415927,"Buffer"
+"32","POE-062","Malibu Ck St Pk/Tapia Park (Malibu Creek State Park)",0.785398163397448,"Buffer"
+"33","POE-062","Malibu Ck St Pk/Tapia Park (Malibu Creek State Park)",0.785398163397448,"Buffer"
+"34","POE-048","Temescal Gateway Park",3622466.6,"Border"
+"35","POE-049","Point Dume / Zuma, Westward Beach Rd",2.35619449019234,"Buffer"
+"36","POE-034","Arroyo Sequit",504604.785398163,"Buffer"
+"37","POE-043","BBT - Topanga State Park Main Entrance",0.785398163397448,"Buffer"
+"38","POE-048","Temescal Gateway Park",44517158.5822971,"Buffer"
+"39","POE-049","Point Dume / Zuma, Westward Beach Rd",389453.05,"Buffer"
+"40","POE-057","Solstice Canyon Trailhead - inner lot",0.589048622548086,"Buffer"
+"41","POE-061","Peter Strauss Ranch",778911.470796327,"Buffer"
+"42","POE-048","Temescal Gateway Park",213455582.8,"Buffer"
+"43","POE-033","Point Dume State Preserve Main Entry",74326144.1159265,"Buffer"
+"44","POE-033","Point Dume State Preserve Main Entry",4.71238898038469,"Border"
+"45","POE-041","PCH, Adamson House (Malibu Lagoon State Beach)",12961934.9079633,"Buffer"
+"46","POE-041","PCH, Adamson House (Malibu Lagoon State Beach)",1317403.7,"Border"
+"47","POE-045","BBT - Kanan Dume Rd N - overflow",737963.205398163,"Buffer"
+"48","POE-048","Temescal Gateway Park",95186175.1079633,"Buffer"
+"49","POE-048","Temescal Gateway Park",0.785398163397448,"Border"
+"50","POE-052","Hillcrest Dr / Beverly Dr",2.35619449019234,"Buffer"
+"51","POE-057","Solstice Canyon Trailhead - inner lot",93673888.073577,"Buffer"
+"52","POE-061","Peter Strauss Ranch",11333449.6,"Buffer"
+"53","POE-062","Malibu Ck St Pk/Tapia Park (Malibu Creek State Park)",133175691.947343,"Buffer"
+"54","POE-032","Santa Ynez Cyn Park Trailhead",5.49778714378214,"Hardscape or Trail"
+"55","POE-032","Santa Ynez Cyn Park Trailhead",9069104.78539816,"Buffer"
+"56","POE-032","Santa Ynez Cyn Park Trailhead",8792088.73539816,"Border"
+"57","POE-034","Arroyo Sequit",0.785398163397448,"Buffer"
+"58","POE-037","Charmlee Regional Park / Charmlee Natural Area",1115201.12699082,"Buffer"
+"59","POE-045","BBT - Kanan Dume Rd N - overflow",1.5707963267949,"Border"
+"60","POE-047","BBT - Ray Miller Trailhead / La Jolla Canyon (Point Mugu State Park)",0.785398163397448,"Buffer"
+"61","POE-048","Temescal Gateway Park",61897415.0570751,"Buffer"
+"62","POE-048","Temescal Gateway Park",0.785398163397448,"Border"
+"63","POE-049","Point Dume / Zuma, Westward Beach Rd",2.35619449019234,"Buffer"
+"64","POE-052","Hillcrest Dr / Beverly Dr",1.76714586764426,"Border"
+"65","POE-057","Solstice Canyon Trailhead - inner lot",0.785398163397448,"Buffer"
+"66","POE-060","Caballero Cyn Trailhead",0.785398163397448,"Buffer"
+"67","POE-062","Malibu Ck St Pk/Tapia Park (Malibu Creek State Park)",1.5707963267949,"Buffer"
+"68","POE-122","Rancho Sierra Vista Main Entrance",33932.4,"Buffer"
+"69","POE-034","Arroyo Sequit",455550.6,"Buffer"
+"70","POE-046","Gillette Ranch",8249968.2,"Buffer"
+"71","POE-056","Wilacre Park Main Entrance",0.785398163397448,"Buffer"
+"72","POE-061","Peter Strauss Ranch",176974527.156195,"Buffer"
+"73","POE-062","Malibu Ck St Pk/Tapia Park (Malibu Creek State Park)",10.9955742875643,"Buffer"
+"74","POE-049","Point Dume / Zuma, Westward Beach Rd",6463722.58539816,"Buffer"
+"75","POE-032","Santa Ynez Cyn Park Trailhead",0.785398163397448,"Buffer"
+"76","POE-041","PCH, Adamson House (Malibu Lagoon State Beach)",1576320.01238898,"Buffer"
+"77","POE-043","BBT - Topanga State Park Main Entrance",0.785398163397448,"Buffer"
+"78","POE-045","BBT - Kanan Dume Rd N - overflow",0.785398163397448,"Buffer"
+"79","POE-046","Gillette Ranch",263168.483185307,"Buffer"
+"80","POE-047","BBT - Ray Miller Trailhead / La Jolla Canyon (Point Mugu State Park)",0.785398163397448,"Hardscape or Trail"
+"81","POE-047","BBT - Ray Miller Trailhead / La Jolla Canyon (Point Mugu State Park)",1.5707963267949,"Buffer"
+"82","POE-048","Temescal Gateway Park",6.28318530717959,"Buffer"
+"83","POE-049","Point Dume / Zuma, Westward Beach Rd",0.785398163397448,"Buffer"
+"84","POE-052","Hillcrest Dr / Beverly Dr",3.14159265358979,"Buffer"
+"85","POE-061","Peter Strauss Ranch",661629.470796327,"Buffer"
+"86","POE-062","Malibu Ck St Pk/Tapia Park (Malibu Creek State Park)",0.785398163397448,"Buffer"
+"87","POE-032","Santa Ynez Cyn Park Trailhead",0.785398163397448,"Hardscape or Trail"
+"88","POE-032","Santa Ynez Cyn Park Trailhead",176016,"Border"
+"89","POE-036","Franklin Canyon Park - Ranch",796909.770796327,"Buffer"
+"90","POE-047","BBT - Ray Miller Trailhead / La Jolla Canyon (Point Mugu State Park)",5280655.34159265,"Hardscape or Trail"
+"91","POE-047","BBT - Ray Miller Trailhead / La Jolla Canyon (Point Mugu State Park)",10622820.6508806,"Buffer"
+"92","POE-047","BBT - Ray Miller Trailhead / La Jolla Canyon (Point Mugu State Park)",129394.3,"Border"
+"93","POE-048","Temescal Gateway Park",30290099.8101761,"Buffer"
+"94","POE-048","Temescal Gateway Park",302589490,"Border"
+"95","POE-052","Hillcrest Dr / Beverly Dr",1637563.65619449,"Buffer"
+"96","POE-052","Hillcrest Dr / Beverly Dr",3.33794219443916,"Border"
+"97","POE-032","Santa Ynez Cyn Park Trailhead",8665598.1,"Buffer"
+"98","POE-037","Charmlee Regional Park / Charmlee Natural Area",6713845.5893798,"Buffer"
+"99","POE-048","Temescal Gateway Park",1.5707963267949,"Buffer"
+"100","POE-053","Nicholas Flat Trailhead",9121154.39557429,"Buffer"
+"101","POE-032","Santa Ynez Cyn Park Trailhead",0.785398163397448,"Hardscape or Trail"
+"102","POE-032","Santa Ynez Cyn Park Trailhead",507650.7,"Buffer"
+"103","POE-034","Arroyo Sequit",3.92699081698724,"Buffer"
+"104","POE-036","Franklin Canyon Park - Ranch",9010950.29778714,"Buffer"
+"105","POE-048","Temescal Gateway Park",29567191.5809724,"Buffer"
+"106","POE-052","Hillcrest Dr / Beverly Dr",7.06858347057703,"Buffer"
+"107","POE-057","Solstice Canyon Trailhead - inner lot",0.785398163397448,"Buffer"
+"108","POE-032","Santa Ynez Cyn Park Trailhead",218608.385398163,"Buffer"
+"109","POE-033","Point Dume State Preserve Main Entry",2194830.43539816,"Buffer"
+"110","POE-038","Las Virgenes View Trail Trailhead",0.785398163397448,"Hardscape or Trail"
+"111","POE-038","Las Virgenes View Trail Trailhead",2913034.58153485,"Buffer"
+"112","POE-041","PCH, Adamson House (Malibu Lagoon State Beach)",0.785398163397448,"Hardscape or Trail"
+"113","POE-041","PCH, Adamson House (Malibu Lagoon State Beach)",5796413.97433388,"Buffer"
+"114","POE-041","PCH, Adamson House (Malibu Lagoon State Beach)",0.785398163397448,"Border"
+"115","POE-042","Malibu Creek SP/Reagan Meadows",176368.326990817,"Buffer"
+"116","POE-044","Dirt Mulholland / Greenbriar Dr",79953327.3,"Buffer"
+"117","POE-044","Dirt Mulholland / Greenbriar Dr",1330336.6,"Border"
+"118","POE-045","BBT - Kanan Dume Rd N - overflow",0.785398163397448,"Buffer"
+"119","POE-045","BBT - Kanan Dume Rd N - overflow",2595490.01254403,"Border"
+"120","POE-046","Gillette Ranch",361995.485398163,"Hardscape or Trail"
+"121","POE-046","Gillette Ranch",52483293.9110567,"Buffer"
+"122","POE-047","BBT - Ray Miller Trailhead / La Jolla Canyon (Point Mugu State Park)",2728874.31238898,"Hardscape or Trail"
+"123","POE-047","BBT - Ray Miller Trailhead / La Jolla Canyon (Point Mugu State Park)",6323709.18451001,"Buffer"
+"124","POE-047","BBT - Ray Miller Trailhead / La Jolla Canyon (Point Mugu State Park)",66020394,"Border"
+"125","POE-048","Temescal Gateway Park",0.785398163397448,"Hardscape or Trail"
+"126","POE-048","Temescal Gateway Park",66223715.8871669,"Buffer"
+"127","POE-048","Temescal Gateway Park",66898144,"Border"
+"128","POE-049","Point Dume / Zuma, Westward Beach Rd",1859899.51017612,"Buffer"
+"129","POE-050","BBT - Encinal Cyn Rd",1479005.35619449,"Buffer"
+"130","POE-050","BBT - Encinal Cyn Rd",868710,"Border"
+"131","POE-052","Hillcrest Dr / Beverly Dr",283844.141592654,"Buffer"
+"132","POE-054","Malibu Crk St Pk / Cistern Trail",791013.585398163,"Hardscape or Trail"
+"133","POE-054","Malibu Crk St Pk / Cistern Trail",4.71238898038469,"Buffer"
+"134","POE-054","Malibu Crk St Pk / Cistern Trail",3293692.8,"Border"
+"135","POE-055","Stunt Ranch Entrance",103337.833185307,"Hardscape or Trail"
+"136","POE-055","Stunt Ranch Entrance",196599.80619449,"Buffer"
+"137","POE-058","Bark Park Trailhead (Baldwin OS)",114795.322583471,"Buffer"
+"138","POE-060","Caballero Cyn Trailhead",0.785398163397448,"Buffer"
+"139","POE-061","Peter Strauss Ranch",1.5707963267949,"Hardscape or Trail"
+"140","POE-062","Malibu Ck St Pk/Tapia Park (Malibu Creek State Park)",2361162.91017612,"Hardscape or Trail"
+"141","POE-062","Malibu Ck St Pk/Tapia Park (Malibu Creek State Park)",3.14159265358979,"Border"
+"142","POE-062","Malibu Ck St Pk/Tapia Park (Malibu Creek State Park)",2224658.8,"Buffer"
+"143","POE-039","Stunt Ranch/Stunt Rd",0.785398163397448,"Hardscape or Trail"
+"144","POE-045","BBT - Kanan Dume Rd N - overflow",3564831.64159265,"Buffer"
+"145","POE-045","BBT - Kanan Dume Rd N - overflow",796569.468544031,"Border"
+"146","POE-046","Gillette Ranch",6227139.97079633,"Buffer"
+"147","POE-050","BBT - Encinal Cyn Rd",1.5707963267949,"Buffer"
+"148","POE-055","Stunt Ranch Entrance",3.14159265358979,"Buffer"
+"149","POE-062","Malibu Ck St Pk/Tapia Park (Malibu Creek State Park)",450923.31238898,"Buffer"
+"150","POE-043","BBT - Topanga State Park Main Entrance",47133762,"Buffer"
+"151","POE-046","Gillette Ranch",69727214.75,"Buffer"
+"152","POE-048","Temescal Gateway Park",399462093.5,"Buffer"
+"153","POE-049","Point Dume / Zuma, Westward Beach Rd",1613748.5,"Buffer"
+"154","POE-062","Malibu Ck St Pk/Tapia Park (Malibu Creek State Park)",303958960.1,"Buffer"
+"155","POE-036","Franklin Canyon Park - Ranch",13832419.6,"Buffer"
+"156","POE-038","Las Virgenes View Trail Trailhead",0.785398163397448,"Buffer"
+"157","POE-045","BBT - Kanan Dume Rd N - overflow",1897.594,"Buffer"
+"158","POE-051","Viewridge Trailhead",0.785398163397448,"Border"
+"159","POE-057","Solstice Canyon Trailhead - inner lot",0.785398163397448,"Buffer"
+"160","POE-122","Rancho Sierra Vista Main Entrance",37967921,"Buffer"
+"161","POE-001","Sycamore Canyon Campground Entrance (Point Mugu State Park)",NA,NA
+"162","POE-002","BBT - Sandstone Peak Trailhead (Circle X Ranch)",NA,NA
+"163","POE-005","Busch Trailhead (Zuma/Trancas Canyons)",NA,NA
+"164","POE-006","Malibu Creek State Park Campground",NA,NA
+"165","POE-007","Top of Topanga Overlook",NA,NA
+"166","POE-008","Fryman Canyon / Nancy Hoover Pohl Overlook (Fryman Canyon Park)",NA,NA
+"167","POE-010","Malibu Crk St Pk / Crags Dr",NA,NA
+"168","POE-012","Mandeville / Garden Land Rd",NA,NA
+"169","POE-013","Tuna Cyn Rd",NA,NA
+"170","POE-014","Zev Yaroslavsky LV Highlands Trailhead",NA,NA
+"171","POE-015","BBT - Hondo Canyon",NA,NA
+"172","POE-017","Winding Way Trail (Escondido Cyn Natural Area)",NA,NA
+"173","POE-018","Circle X Ranch Campground Entrance",NA,NA
+"174","POE-019","Malibu Creek State Pk / Liberty Cyn",NA,NA
+"175","POE-020","Serrano Rd Terminus",NA,NA
+"176","POE-022","BBT - Corral Canyon Trailhead (Malibu Creek State Park)",NA,NA
+"177","POE-025","Malibu Bluffs, Michael Landon Center",NA,NA
+"178","POE-026","Paramount Ranch Main Entrance (Paramount Ranch)",NA,NA
+"179","POE-028","Canyonback Rd (N end of Mtn Gate development)",NA,NA
+"180","POE-029","Los Robles Trail (COSCA Lands)",NA,NA
+"181","POE-030","Morrison Trailhead",NA,NA
+"182","POE-031","Olympia Farms Trailhead",NA,NA
+"183","POE-094","Cheeseboro Canyon Trailhead (Simi Hills)",NA,NA
+"184","POE-095","Abrams Trailhead",NA,NA
+"185","POE-097","Corral Cyn / Mesa Peak Mtwy",NA,NA
+"186","POE-098","Secret Trail Trailhead",NA,NA
+"187","POE-101","Temescal Ridge Trailhead (Topanga State Park)",NA,NA
+"188","POE-103","Lake & Franklin Cyn fork",NA,NA
+"189","POE-104","Malibu Creek State Park",NA,NA
+"190","POE-106","Malibu Lagoon State Beach",NA,NA
+"191","POE-107","Pt Mugu SP/Chumash Trail",NA,NA
+"192","POE-108","Topanga SP - Los Liones Dr (Topanga State Park)",NA,NA
+"193","POE-112","Corral Cyn Rd/Baller Mtwy",NA,NA
+"194","POE-113","Top of Reseda",NA,NA
+"195","POE-114","Thornhill Broome Beach Camping (mouth of La Jolla Canyon)",NA,NA
+"196","POE-115","BBT - Will Rogers SHP Main Entrance (Topanga State Park)",NA,NA
+"197","POE-116","Las Virgenes Canyon Trailhead",NA,NA
+"198","POE-117","Topanga Cyn Bl / Henry Ridge Mtw",NA,NA
+"199","POE-118","Leo Carillo Campground",NA,NA
+"200","POE-119","Malibu Crk St Pk / Phantom Trail",NA,NA
+"201","POE-120","Corral Canyon Trailhead",NA,NA
+"202","POE-123","end of Queensferry Rd",NA,NA
+"203","POE-040","Iredell Ln at Fire Road",NA,NA
+"204","POE-064","Casale Rd. End",NA,NA
+"205","POE-066","BBT - Kanan Trailhead (Zuma/Trancas Canyons)",NA,NA
+"206","POE-067","Tree People parking lot (Coldwater Cyn/Wilacre)",NA,NA
+"207","POE-068","BBT - Lois Ewen Overlook",NA,NA
+"208","POE-069","East End Dirt Mulholland",NA,NA
+"209","POE-070","Juan Bautista de Anza Trailhead West",NA,NA
+"210","POE-071","Rancho Potrero Trailhead",NA,NA
+"211","POE-072","Pt Dume, Lower Trailhead from Beach (Point Dume State Preserve)",NA,NA
+"212","POE-073","Wendy Trailhead",NA,NA
+"213","POE-074","El Pescador State Beach Parking Lot",NA,NA
+"214","POE-075","WODOC parking lot (Franklin Canyon - upper)",NA,NA
+"215","POE-076","Topanga / Hillside Dr",NA,NA
+"216","POE-077","Vanalden Ave S terminus",NA,NA
+"217","POE-078","Rocky Oaks",NA,NA
+"218","POE-079","Juan Bautista de Anza Trailhead East",NA,NA
+"219","POE-080","Point Dume State Preserve, Admin Rd",NA,NA
+"220","POE-081","BBT - Yerba Buena Rd",NA,NA
+"221","POE-082","El Matador State Beach Parking Lot",NA,NA
+"222","POE-084","Paramount Ranch/Mulholland Hwy",NA,NA
+"223","POE-085","Musch Camp (Topanga State Park)",NA,NA
+"224","POE-087","BBT - Tapia Trailhead (MCSP BBT)",NA,NA
+"225","POE-088","Bonsall Trailhead (Zuma/Trancas Canyons)",NA,NA
+"226","POE-089","BBT - Stunt Rd",NA,NA
+"227","POE-090","Nike Missile Overlook (Westridge-Canyonback Wilderness Park)",NA,NA
+"228","POE-091","De Anza Park (Malibu Creek SP)",NA,NA
+"229","POE-092","92 Trail / Entrada Rd",NA,NA
+"230","POE-093","Malibu Springs/Mulholland Hwy",NA,NA
+"231","POE-003","Morrison Ranch",NA,NA
+"232","POE-004","Big Sycamore Canyon Horse Corral (just north of Danielson Ranch)",NA,NA
+"233","POE-009","Leo Carrillo SP / Yellow Hill Rd",NA,NA
+"234","POE-011","Lower Stunt High Trail Trailhead",NA,NA
+"235","POE-016","Runyon Cyn Rd Trailhead North (Runyon Canyon Park)",NA,NA
+"236","POE-021","La Piedra State Beach Parking Lot",NA,NA
+"237","POE-023","Saddle Peak Rd / Hondo Cyn Trail",NA,NA
+"238","POE-024","Barker Fire Rd",NA,NA
+"239","POE-027","Red Rock Cyn Entrance",NA,NA
+"240","POE-035","Santa Maria Road",NA,NA
+"241","POE-065","BBT - Mishe Mokwa Trailhead S",NA,NA
+"242","POE-096","Big Sycamore Canyon Horse Camp (Danielson Ranch, Point Mugu State Park)",NA,NA
+"243","POE-099","BBT - Piuma Rd Hairpin Trailhead",NA,NA
+"244","POE-100","Malibu Ck St Pk / Lookout Rd",NA,NA
+"245","POE-105","Yucca Trailhead",NA,NA
+"246","POE-109","Ed Edelman Park Trailhead",NA,NA
+"247","POE-110","Hastain Trailhead (Franklin Canyon - upper)",NA,NA
+"248","POE-111","Grasslands Trail North",NA,NA
+"249","POE-121","Runyon Cyn Rd Trailhead South",NA,NA
+"250","POE-083","end of Shady Oak Rd",NA,NA
+"251","POE-102","Santa Maria Road",NA,NA
