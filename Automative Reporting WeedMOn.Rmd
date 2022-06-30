@@ -36,7 +36,7 @@ devtools::install_github("haozhu233/kableExtra")
 # SET YEAR
 ```{r}
 # Setting this variable to the year will produce the correct code for the year you would like
-year_code <- 2021
+year_code <- 2022
 
 ```
 
@@ -69,6 +69,31 @@ DRT_NNIS_raw <- read_excel(here(file = "qry_2021_DRT_CountOfNNIS_perTransect2.xl
 # make dataframe
 DRT_NNIS_raw <- data.frame(DRT_NNIS_raw)
 
+# 2022 File Format from Survey123
+DRT_species_table <- read.csv(file="tbl_Species_1_2022_test.csv")
+DRT_data_entry <- read.csv(file="MEDN_DRT_Data_Entry_v_2_0._2022_test.csv")
+
+# DRT Species Table has SpeciesName = Target.Species, SubTransect, ParentGlobalID
+# DRT_data_entry has Site_ID = Loc_Name, Location_ID = Location_Code, GlobalID
+DRT_species_table <- select(DRT_species_table, Target.Species, SubTransect, ParentGlobalID)
+DRT_species_table<- rename(DRT_species_table, SpeciesName = Target.Species, X = SubTransect, key = ParentGlobalID)
+DRT_data_entry <- select(DRT_data_entry, Location_ID, GlobalID, Site_ID)
+DRT_data_entry <- rename(DRT_data_entry, Loc_Name = Site_ID, Location_Code = Location_ID, key = GlobalID)
+
+# Join data
+DRT_survey <- right_join(DRT_data_entry, DRT_species_table)
+DRT_survey$SurveyYear <- year_code
+DRT_survey <- select(DRT_survey, -key)
+
+# Need to ask about NAs but for now lets remove them and pivot
+DRT_survey <- na.omit(DRT_survey)
+
+DRT_survey$Found <- "X"
+
+DRT_survey <- pivot_wider(DRT_survey, names_from = X, values_from = Found)
+
+####################################################################################################
+
 # POE
 # Pt
 # Fields to keep: Shape, PARK_UNIT, SCNTFC_CD, SCNTFC_CD2, SCNTFC_CD3, SCNTFC_CD4, SCNTFC_CD5, BUFFER rev_M
@@ -87,7 +112,6 @@ poe_pt_raw <- select(poe_pt_raw, - BUFFER_M)
 # Calculate Area
 poe_pt_raw$Area <- pi*(poe_pt_raw$buffer_rev^2)
 
-####################################################################################################
 # Line
 # Fields to Keep: Shape, PARK_UNIT, SCNTFC_CD, SCNTFC_CD2, SCNTFC_CD3, SCNTFC_CD4, SCNTFC_CD5, LOC_NM
 poe_ln_raw <- read_excel(here(file = "raw_POE_WeedSurveyLn_2021.xlsx"))
