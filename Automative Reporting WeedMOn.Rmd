@@ -92,6 +92,10 @@ DRT_survey$Found <- "X"
 
 DRT_survey <- pivot_wider(DRT_survey, names_from = X, values_from = Found)
 
+# if all subtransects have none then an X in the X0 column
+
+
+
 ####################################################################################################
 
 # POE
